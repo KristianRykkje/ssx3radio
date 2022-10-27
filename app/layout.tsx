@@ -1,4 +1,3 @@
-import Head from "next/head";
 import "./globals.css";
 
 export default function RootLayout({
@@ -8,11 +7,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
+      <head>
         <title>SSX3 Radio Big</title>
         <meta name="description" content="SSX3 Radio big" />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </head>
       <body>{children}</body>
     </html>
   );
