@@ -15,6 +15,7 @@ specifiers:
   react: 18.2.0
   react-dom: 18.2.0
   react-is: ^18.2.0
+  react-supabase: ^0.2.0
   styled-components: ^5.3.6
   tailwindcss: ^3.2.1
   typescript: 4.8.4
@@ -25,6 +26,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-is: 18.2.0
+  react-supabase: 0.2.0_zwds5m5ct42h2rhmvnpy6onruy
   styled-components: 5.3.6_7i5myeigehqah43i5u7wbekgba
 
 devDependencies:
@@ -2303,6 +2305,16 @@ packages:
 
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-supabase/0.2.0_zwds5m5ct42h2rhmvnpy6onruy:
+    resolution: {integrity: sha512-dlAOhkFaWr8ZqHUkWflGvDpFUT69DbWE7+LxmH/a56ma/qS1EinsIKcxskPcPlaWO70QI7hxu9y8imp8qxDCLw==}
+    peerDependencies:
+      '@supabase/supabase-js': ^1.11.6
+      react: ^17.0.0
+    dependencies:
+      '@supabase/supabase-js': 2.0.4
+      react: 18.2.0
     dev: false
 
   /react/18.2.0:

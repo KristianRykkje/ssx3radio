@@ -35,10 +35,14 @@ export default class MyDocument extends Document {
   }
   render() {
     return (
-      <Html>
+      <Html
+        style={{
+          height: "100%",
+        }}
+      >
         <Head></Head>
         {/*used to increase specificity of tailwind classes when overriding external libs css*/}
-        <body id="app">
+        <body id="app" style={{ height: "100%" }}>
           <Main />
           <NextScript />
         </body>
