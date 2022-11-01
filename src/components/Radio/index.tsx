@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useState, useEffect, useRef, MutableRefObject } from "react";
 import Credit from "../Credit";
 import Library from "../Library";
@@ -54,6 +55,10 @@ const Radio = () => {
 
   return (
     <RadioContainer libraryStatus={libraryStatus}>
+      <Head>
+        <title>SSX 3 Radio Big</title>
+        <meta name="description" content="SSX 3 Radio Big" />
+      </Head>
       <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
       <Song currentSong={currentSong} />
       <Player
