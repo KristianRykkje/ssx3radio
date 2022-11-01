@@ -33,7 +33,7 @@ const Radio = () => {
   });
 
   // Functions
-  const updateTimeHandler = (e) => {
+  const updateTimeHandler = (e: any) => {
     if (e.target) {
       const current = e.target.currentTime;
       const duration = e.target.duration;

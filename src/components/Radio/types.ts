@@ -3,7 +3,14 @@ export interface ISongInfo {
   duration: number;
 }
 
-export interface ISong {
+interface ISongExtra {
+  active: boolean;
+  color: string;
+  cover: string;
+  artist: string;
+}
+
+export interface ISong extends ISongExtra {
   name: string;
   id: string;
   updated_at: string;

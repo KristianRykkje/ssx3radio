@@ -1,5 +1,5 @@
-import { Song } from "../Radio/types";
+import { ISong } from "../Radio/types";
 
 export interface ISongProps {
-  currentSong: Song;
+  currentSong: ISong;
 }

@@ -19,7 +19,7 @@ export const TimeControlContainer = styled.div`
 `;
 
 export const Track = styled.div<{
-  currentTrack: ISong;
+  currentSong: ISong;
 }>`
   background: lightblue;
   width: 100%;
@@ -29,8 +29,8 @@ export const Track = styled.div<{
   overflow: hidden;
   background: linear-gradient(
     to right,
-    ${(p) => p.currentTrack?.color?.[0] || "red"},
-    ${(p) => p.currentTrack?.color?.[1] || "blue"}
+    ${(p) => p.currentSong?.color || "red"},
+    ${(p) => p.currentSong?.color || "blue"}
   );
 `;
 
