@@ -1,6 +1,7 @@
 import { supabase } from "../../config/supabase";
+import { ISong } from "./types";
 
-export const getAudioData = async () => {
+export const getSongs = async () => {
   const { data, error } = await supabase.storage
     .from("music")
     .list("ssx3radio", {
@@ -13,9 +14,10 @@ export const getAudioData = async () => {
     console.log("error", error);
   }
 
-  return data;
+  return data as unknown as ISong[];
 };
 
 export const getTrackUrlFromData = (name: string) => {
-  return supabase.storage.from("music").getPublicUrl("ssx3radio/" + name);
+  if (!name) return null;
+  return supabase.storage.from("music").getPublicUrl("ssx3radio/" + name).data;
 };

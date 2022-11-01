@@ -1,113 +1,91 @@
 import { useState, useEffect, useRef, MutableRefObject } from "react";
-import { Header } from "../Header";
-import { PlayAnimationButton } from "../PlayAnimationButton";
-import { getAudioData, getTrackUrlFromData } from "./helpers";
-import { StyledContainer } from "./styles";
+import Credit from "../Credit";
+import Library from "../Library";
+import Nav from "../Nav";
+import Player from "../Player";
+import Song from "../Song";
+import { getSongs, getTrackUrlFromData } from "./helpers";
+import { RadioContainer } from "./styles";
+import { ISongInfo } from "./types";
 
 const Radio = () => {
-  const [audioData, setAudioData] = useState<any>(null);
-  const [currentTrack, setCurrentTrack] = useState<any>(null);
+  const [songs, setSongs] = useState<any>(null);
+  const [currentSong, setCurrentSong] = useState<any>(null);
 
   useEffect(() => {
-    const loadAudioData = async () => {
-      const data = await getAudioData();
-      setAudioData(data);
-      setCurrentTrack(data?.[0]?.name);
+    const loadsongs = async () => {
+      const data = await getSongs();
+      setSongs(data);
+      setCurrentSong(data?.[0]);
     };
 
-    loadAudioData();
+    loadsongs();
   }, []);
 
-  const audioRef: MutableRefObject<HTMLAudioElement | null> = useRef(null);
+  const audioRef = useRef() as MutableRefObject<HTMLAudioElement>;
+
+  // State
   const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(0.5);
+  const [libraryStatus, setLibraryStatus] = useState(false);
+  const [songInfo, setSongInfo] = useState<ISongInfo>({
+    currentTime: 0,
+    duration: 0,
+  });
 
-  const playTrackHandler = () => {
-    if (isPlaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current?.play();
-      setIsPlaying(true);
-    }
-  };
-
-  const timeUpdateHandler = (e: any) => {
-    const current = e.target.currentTime;
-    const duration = e.target.duration;
-    setProgress((current / duration) * 100);
-  };
-
-  const dragHandler = (e: any) => {
-    audioRef.current!.currentTime =
-      (e.target.value / 100) * audioRef.current!.duration;
-    setProgress(e.target.value);
-  };
-
-  const skipTrackHandler = (direction: string) => {
-    const currentIndex = audioData.findIndex(
-      (track: any) => track.name === currentTrack
-    );
-    if (direction === "skip-forward") {
-      setCurrentTrack(
-        getTrackUrlFromData(audioData[currentIndex + 1].name).data.publicUrl
-      );
-    }
-    if (direction === "skip-back") {
-      if ((audioRef.current!.currentTime as number) > 3) {
-        audioRef.current!.currentTime = 0;
-      } else {
-        setCurrentTrack(
-          getTrackUrlFromData(audioData[currentIndex - 1].name).data.publicUrl
-        );
-      }
+  // Functions
+  const updateTimeHandler = (e) => {
+    if (e.target) {
+      const current = e.target.currentTime;
+      const duration = e.target.duration;
+      setSongInfo({ ...songInfo, currentTime: current, duration });
     }
   };
 
   const onEndedHandler = () => {
-    const currentIndex = audioData.findIndex(
-      (track: any) => track.name === currentTrack
+    const currentIndex = songs.findIndex(
+      (track: any) => track.name === currentSong
     );
-    if (currentIndex === audioData.length - 1) {
-      setCurrentTrack(audioData[0].name);
+    if (currentIndex === songs.length - 1) {
+      setCurrentSong(songs[0].name);
       return;
     }
-    setCurrentTrack(audioData[currentIndex + 1].name);
+    setCurrentSong(songs[currentIndex + 1].name);
   };
 
   return (
-    <StyledContainer>
-      <Header />
-      <PlayAnimationButton
+    <RadioContainer libraryStatus={libraryStatus}>
+      <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
+      <Song currentSong={currentSong} />
+      <Player
         isPlaying={isPlaying}
-        playTrackHandler={playTrackHandler}
+        setIsPlaying={setIsPlaying}
+        currentSong={currentSong}
+        setCurrentSong={setCurrentSong}
+        audioRef={audioRef}
+        songInfo={songInfo}
+        setSongInfo={setSongInfo}
+        songs={songs}
+        setSongs={setSongs}
       />
-
+      <Library
+        songs={songs}
+        setCurrentSong={setCurrentSong}
+        audioRef={audioRef}
+        isPlaying={isPlaying}
+        setSongs={setSongs}
+        libraryStatus={libraryStatus}
+      />
+      <Credit />
       <audio
-        ref={audioRef}
-        className="w-full h-full"
-        src={getTrackUrlFromData(currentTrack).data.publicUrl}
         autoPlay={true}
         onPlay={() => setIsPlaying(true)}
-        controls={true}
-        onEnded={(_e) => {
-          onEndedHandler();
-        }}
-      ></audio>
-
-      {/* List whole audioData */}
-      <select onChange={(e) => setCurrentTrack(e.target.value)}>
-        {audioData?.map((track: any) => (
-          <option
-            key={getTrackUrlFromData(track.name).data.publicUrl}
-            value={track.name}
-          >
-            {track.name}
-          </option>
-        ))}
-      </select>
-    </StyledContainer>
+        onLoadedMetadata={updateTimeHandler}
+        onTimeUpdate={updateTimeHandler}
+        onEnded={onEndedHandler}
+        ref={audioRef}
+        src={getTrackUrlFromData(currentSong?.name)?.publicUrl}
+      />
+    </RadioContainer>
   );
 };
 
