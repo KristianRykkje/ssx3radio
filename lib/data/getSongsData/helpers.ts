@@ -1,7 +1,10 @@
-import { supabase } from "../../config/supabase";
-import { ISong } from "./types";
-import { parseBuffer } from "music-metadata";
-import { getMetaDataByName } from "./data";
+import { supabase } from "@lib/config/supabase";
+import { ISong } from "@lib/types/ISong";
+import { musicMetaData } from "./data";
+
+export const getMetaDataByName = (name: string) => {
+  return musicMetaData.find((item) => item.name === name);
+};
 
 export const getSongs = async () => {
   const { data, error } = await supabase.storage

@@ -1,8 +1,3 @@
-export interface ISongInfo {
-  currentTime: number;
-  duration: number;
-}
-
 export interface ISong {
   name: string;
   id: string | number;

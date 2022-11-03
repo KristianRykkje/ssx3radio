@@ -1,5 +1,6 @@
+import { ISong } from "@lib/types/ISong";
 import styled from "styled-components";
-import { ISong, ISongInfo } from "../Radio/types";
+import { ISongInfo } from "../Radio/types";
 
 export const PlayerContainer = styled.div`
   min-height: 20vh;

@@ -1,46 +1,17 @@
+"use client";
+import { ISong } from "@lib/types/ISong";
 import Head from "next/head";
-import { useState, useEffect, useRef, MutableRefObject } from "react";
+import { useState, useRef, MutableRefObject } from "react";
 import Credit from "../Credit";
 import Library from "../Library";
 import Nav from "../Nav";
 import Player from "../Player";
 import Song from "../Song";
-import { getMetaDataByName } from "./data";
-import { getSongs, getTrackUrlFromData } from "./helpers";
 import { RadioContainer } from "./styles";
-import { ISong, ISongInfo } from "./types";
+import { IRadioProps, ISongInfo } from "./types";
 
-const Radio = () => {
-  const [songs, setSongs] = useState<ISong[]>([]);
-
-  useEffect(() => {
-    const loadsongs = async () => {
-      const songsDataArr = [];
-      const data = await getSongs();
-
-      for (let i = 0; i < data.length; i++) {
-        const songData = data[i];
-        const metaData = getMetaDataByName(songData.name);
-        const trackUrl = getTrackUrlFromData(songData.name);
-        const coverUrl = "/ssx3cover.jpg";
-        const song = {
-          ...songData,
-          ...metaData,
-          trackUrl,
-          coverUrl,
-          active: false,
-        };
-        if (i === 0) {
-          song.active = true;
-        }
-        songsDataArr.push(song);
-      }
-
-      setSongs(songsDataArr);
-    };
-
-    loadsongs();
-  }, []);
+const Radio: React.FC<IRadioProps> = ({ songsData }) => {
+  const [songs, setSongs] = useState<ISong[]>(songsData);
 
   const setNewActiveSong = (newSong: ISong) => {
     const newSongs = songs.map((song) => {
@@ -87,7 +58,11 @@ const Radio = () => {
   const currentSong = songs.find((song) => song.active);
 
   return (
-    <RadioContainer libraryStatus={libraryStatus}>
+    <RadioContainer
+      style={{
+        marginLeft: libraryStatus ? "20rem" : "0",
+      }}
+    >
       <Head>
         <title>SSX 3 Radio Big</title>
         <meta name="description" content="SSX 3 Radio Big" />
@@ -117,6 +92,7 @@ const Radio = () => {
       <audio
         autoPlay={true}
         onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
         onLoadedMetadata={updateTimeHandler}
         onTimeUpdate={updateTimeHandler}
         onEnded={onEndedHandler}

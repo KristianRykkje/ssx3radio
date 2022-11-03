@@ -480,7 +480,3 @@ export const musicMetaData = [
     color: pickRandomColor(),
   },
 ];
-
-export const getMetaDataByName = (name: string) => {
-  return musicMetaData.find((item) => item.name === name);
-};

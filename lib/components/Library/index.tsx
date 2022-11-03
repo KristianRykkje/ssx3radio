@@ -12,7 +12,16 @@ const Library: React.FC<ILibraryProps> = ({
   libraryStatus,
 }) => {
   return (
-    <st.LibraryContainer libraryStatus={libraryStatus}>
+    <st.LibraryContainer
+      style={{
+        transform: libraryStatus ? "translateX(0)" : "translateX(-100%)",
+        opacity: libraryStatus ? "1" : "0",
+        position: "fixed",
+        zIndex: 9,
+        top: 0,
+        left: 0,
+      }}
+    >
       <st.H2>Library</st.H2>
       <st.SongContainer>
         {songs?.map((song) => (
