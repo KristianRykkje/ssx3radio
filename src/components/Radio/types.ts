@@ -3,22 +3,27 @@ export interface ISongInfo {
   duration: number;
 }
 
-interface ISongExtra {
-  active: boolean;
-  color: string;
-  cover: string;
-  artist: string;
-}
-
-export interface ISong extends ISongExtra {
+export interface ISong {
   name: string;
-  id: string;
+  id: string | number;
   updated_at: string;
   created_at: string;
   last_accessed_at: string;
+  color: string;
   metadata: {
     size: number;
-    mimetype: "audio/mpeg";
-    cacheControl: "max-age=3600";
+    mimetype: string;
+    cacheControl: string;
   };
+  url: string;
+  duration: number;
+  title: string;
+  artist: string;
+  album: string;
+  coverUrl: string;
+  year: number;
+  trackUrl: {
+    publicUrl: string;
+  } | null;
+  active: boolean;
 }

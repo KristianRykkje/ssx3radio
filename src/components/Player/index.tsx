@@ -58,7 +58,7 @@ const Player: React.FC<IPlayerProps> = ({
 
   const skipTrackHandler = (direction: ISkipDirection) => {
     const currentIndex = songs.findIndex(
-      (track: ISong) => track.name === currentSong.name
+      (track: ISong) => track.name === currentSong?.name
     );
     const isLastSong = currentIndex === songs.length - 1;
     const isFirstSong = currentIndex === 0;

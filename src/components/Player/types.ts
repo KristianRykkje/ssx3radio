@@ -1,7 +1,7 @@
 import { ISong, ISongInfo } from "../Radio/types";
 
 export interface IPlayerProps {
-  currentSong: ISong;
+  currentSong?: ISong;
   setCurrentSong: (song: ISong) => void;
   isPlaying: boolean;
   setIsPlaying: (isPlaying: boolean) => void;

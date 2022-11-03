@@ -19,7 +19,7 @@ export const TimeControlContainer = styled.div`
 `;
 
 export const Track = styled.div<{
-  currentSong: ISong;
+  currentSong?: ISong;
 }>`
   background: lightblue;
   width: 100%;
@@ -30,7 +30,7 @@ export const Track = styled.div<{
   background: linear-gradient(
     to right,
     ${(p) => p.currentSong?.color || "red"},
-    ${(p) => p.currentSong?.color || "blue"}
+    ${(p) => p.currentSong?.color || "red"}
   );
 `;
 
@@ -47,7 +47,6 @@ export const AnimateTrack = styled.div<{
     ${(p) =>
       Math.round((p.songInfo.currentTime * 100) / p.songInfo.duration) + "%"}
   );
-  transition: transform 0.5s linear;
   pointer-events: none;
 `;
 

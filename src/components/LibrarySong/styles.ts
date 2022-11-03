@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styled from "styled-components";
 
 export const LibrarySongContainer = styled.div<{
@@ -12,6 +13,7 @@ export const LibrarySongContainer = styled.div<{
   &:hover {
     background-color: lightblue;
     transition: all 0.3s ease;
+    cursor: pointer;
   }
   &.active {
     background-color: pink;

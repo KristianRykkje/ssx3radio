@@ -10,7 +10,6 @@ const LibrarySong: React.FC<ILibrarySongProps> = ({
   isPlaying,
   setSongs,
 }) => {
-  // Function
   const songSelectHandler = () => {
     setCurrentSong(song);
     const curSong = song;
@@ -31,7 +30,6 @@ const LibrarySong: React.FC<ILibrarySongProps> = ({
     });
     setSongs(newSongs);
 
-    // check if user is wanting to play a song.
     if (isPlaying) {
       if (audioRef.current) {
         audioRef.current.play();
@@ -41,9 +39,9 @@ const LibrarySong: React.FC<ILibrarySongProps> = ({
 
   return (
     <st.LibrarySongContainer onClick={songSelectHandler} isActive={song.active}>
-      <st.Img src={song.cover} alt={song.name}></st.Img>
+      <st.Img src={song.coverUrl} alt={song.title} />
       <st.LibrarySongDescription>
-        <st.H1>{song.name}</st.H1>
+        <st.H1>{song.title}</st.H1>
         <st.H2>{song.artist}</st.H2>
       </st.LibrarySongDescription>
     </st.LibrarySongContainer>

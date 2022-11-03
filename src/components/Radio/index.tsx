@@ -5,27 +5,62 @@ import Library from "../Library";
 import Nav from "../Nav";
 import Player from "../Player";
 import Song from "../Song";
+import { getMetaDataByName } from "./data";
 import { getSongs, getTrackUrlFromData } from "./helpers";
 import { RadioContainer } from "./styles";
-import { ISongInfo } from "./types";
+import { ISong, ISongInfo } from "./types";
 
 const Radio = () => {
-  const [songs, setSongs] = useState<any>(null);
-  const [currentSong, setCurrentSong] = useState<any>(null);
+  const [songs, setSongs] = useState<ISong[]>([]);
 
   useEffect(() => {
     const loadsongs = async () => {
+      const songsDataArr = [];
       const data = await getSongs();
-      setSongs(data);
-      setCurrentSong(data?.[0]);
+
+      for (let i = 0; i < data.length; i++) {
+        const songData = data[i];
+        const metaData = getMetaDataByName(songData.name);
+        const trackUrl = getTrackUrlFromData(songData.name);
+        const coverUrl = "/ssx3cover.jpg";
+        const song = {
+          ...songData,
+          ...metaData,
+          trackUrl,
+          coverUrl,
+          active: false,
+        };
+        if (i === 0) {
+          song.active = true;
+        }
+        songsDataArr.push(song);
+      }
+
+      setSongs(songsDataArr);
     };
 
     loadsongs();
   }, []);
 
+  const setNewActiveSong = (newSong: ISong) => {
+    const newSongs = songs.map((song) => {
+      if (song.id === newSong.id) {
+        return {
+          ...song,
+          active: true,
+        };
+      } else {
+        return {
+          ...song,
+          active: false,
+        };
+      }
+    });
+    setSongs(newSongs);
+  };
+
   const audioRef = useRef() as MutableRefObject<HTMLAudioElement>;
 
-  // State
   const [isPlaying, setIsPlaying] = useState(false);
   const [libraryStatus, setLibraryStatus] = useState(false);
   const [songInfo, setSongInfo] = useState<ISongInfo>({
@@ -33,7 +68,6 @@ const Radio = () => {
     duration: 0,
   });
 
-  // Functions
   const updateTimeHandler = (e: any) => {
     if (e.target) {
       const current = e.target.currentTime;
@@ -43,15 +77,14 @@ const Radio = () => {
   };
 
   const onEndedHandler = () => {
-    const currentIndex = songs.findIndex(
-      (track: any) => track.name === currentSong
-    );
-    if (currentIndex === songs.length - 1) {
-      setCurrentSong(songs[0].name);
-      return;
-    }
-    setCurrentSong(songs[currentIndex + 1].name);
+    const currentIndex = songs.findIndex((track: ISong) => track.active);
+    const isLastSong = currentIndex === songs.length - 1;
+    const nextSong = isLastSong ? songs[0] : songs[currentIndex + 1];
+
+    setNewActiveSong(nextSong);
   };
+
+  const currentSong = songs.find((song) => song.active);
 
   return (
     <RadioContainer libraryStatus={libraryStatus}>
@@ -65,7 +98,7 @@ const Radio = () => {
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         currentSong={currentSong}
-        setCurrentSong={setCurrentSong}
+        setCurrentSong={setNewActiveSong}
         audioRef={audioRef}
         songInfo={songInfo}
         setSongInfo={setSongInfo}
@@ -74,7 +107,7 @@ const Radio = () => {
       />
       <Library
         songs={songs}
-        setCurrentSong={setCurrentSong}
+        setCurrentSong={setNewActiveSong}
         audioRef={audioRef}
         isPlaying={isPlaying}
         setSongs={setSongs}
@@ -88,7 +121,7 @@ const Radio = () => {
         onTimeUpdate={updateTimeHandler}
         onEnded={onEndedHandler}
         ref={audioRef}
-        src={getTrackUrlFromData(currentSong?.name)?.publicUrl}
+        src={currentSong?.trackUrl?.publicUrl}
       />
     </RadioContainer>
   );
