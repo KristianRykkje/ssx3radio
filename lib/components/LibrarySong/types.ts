@@ -1,4 +1,4 @@
-import { ISong } from "../Radio/types";
+import { ISong } from "@lib/types/ISong";
 
 export interface ILibrarySongProps {
   song: ISong;

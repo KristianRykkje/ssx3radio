@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as st from "./styles";
 import { IPlayerProps, ISkipDirection } from "./types";
-import { ISong } from "../Radio/types";
+import { ISong } from "@lib/types/ISong";
 
 // style
 const pointer = { cursor: "pointer" };

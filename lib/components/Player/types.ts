@@ -1,4 +1,5 @@
-import { ISong, ISongInfo } from "../Radio/types";
+import { ISong } from "@lib/types/ISong";
+import { ISongInfo } from "../Radio/types";
 
 export interface IPlayerProps {
   currentSong?: ISong;
