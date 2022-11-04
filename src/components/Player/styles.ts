@@ -1,4 +1,4 @@
-import { ISong } from "@lib/types/ISong";
+import { ISong } from "@src/types/ISong";
 import styled from "styled-components";
 import { ISongInfo } from "../Radio/types";
 

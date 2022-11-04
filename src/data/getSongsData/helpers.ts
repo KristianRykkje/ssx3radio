@@ -1,5 +1,5 @@
-import { supabase } from "@lib/config/supabase";
-import { ISong } from "@lib/types/ISong";
+import { supabase } from "@src/config/supabase";
+import { ISong } from "@src/types/ISong";
 import { musicMetaData } from "./data";
 
 export const getMetaDataByName = (name: string) => {

@@ -1,7 +1,7 @@
 "use client";
-
-import { useStyledComponentsRegistry } from "../lib/styled-components";
+import { useStyledComponentsRegistry } from "../src/styled-components";
 import { useServerInsertedHTML } from "next/navigation";
+import { ServerStyleSheetDocument } from "next-sanity/studio";
 
 export default function RootStyleRegistry({
   children,
@@ -15,5 +15,10 @@ export default function RootStyleRegistry({
     return <>{styledComponentsFlushEffect()}</>;
   });
 
-  return <StyledComponentsRegistry>{children}</StyledComponentsRegistry>;
+  return (
+    <StyledComponentsRegistry>
+      <ServerStyleSheetDocument />
+      {children}
+    </StyledComponentsRegistry>
+  );
 }

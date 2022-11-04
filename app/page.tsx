@@ -1,5 +1,5 @@
-import Radio from "@lib/components/Radio";
-import { getSongsData } from "@lib/data/getSongsData";
+import Radio from "src/components/Radio";
+import { getSongsData } from "@src/data/getSongsData";
 import React from "react";
 
 const Home = async () => {

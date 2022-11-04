@@ -1,4 +1,4 @@
-import { ISong } from "@lib/types/ISong";
+import { ISong } from "@src/types/ISong";
 
 export interface ISongInfo {
   currentTime: number;

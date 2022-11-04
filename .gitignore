@@ -2,6 +2,13 @@
 
 # dependencies
 /node_modules
+# all folders with name node_modules
+/node_modules/*
+# all folders with name node_modules in the root directory
+/*/node_modules/*
+# all folders with name node_modules in the root directory and all subdirectories
+/**/node_modules/*
+
 /.pnp
 .pnp.js
 
@@ -36,3 +43,5 @@ yarn-error.log*
 next-env.d.ts
 
 .vscode
+
+.vercel

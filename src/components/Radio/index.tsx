@@ -1,5 +1,5 @@
 "use client";
-import { ISong } from "@lib/types/ISong";
+import { ISong } from "@src/types/ISong";
 import Head from "next/head";
 import { useState, useRef, MutableRefObject } from "react";
 import Credit from "../Credit";
